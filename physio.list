@@ -1,0 +1,35 @@
+! Provide simulation parameters
+!  species = Species of Krill ( 0 = M.norvegica | 1 = T.raschii)
+
+! Parameters of ingestion, respiration, develop and arrhenius functions
+!  aw      =  The regression constant of length(mm)/mass(mgC) relationship    (7.5e-5 = M.norvegica  | 7.17e-4 = T.raschii)
+!  bw      =  The regression coefficient of length(mm)/mass(mgC) relationship (3.79   = M.norvegica  | 3.17    = T.raschii)
+!  ei      =  The activation energy of the process considered in eV           (0.2    = M.norvegica  |         = T.raschii)
+!  a_molt  =  The regression constant of IMP(day) relationship		      (20.62  = M.norvegica  |         = T.raschii) 
+!  b_molt  =  The regression coefficient of IMP(day)/temp(°C) relationship    (-1.16  = M.norvegica  |         = T.raschii)
+!  k0      =  A scaling constant at T0 in l.h^–1.mgC^-3/4                     (1      = M.norvegica  | 1       = T.raschii)
+!  h0      =  A scaling constant at T0 in h.mgCfood^-1.mgC^-3/4               (150    = M.norvegica  | 1       = T.raschii)
+!  A       =  Assimilation efficiency coefficent in %                         (0.6    = M.norvegica  | 1       = T.raschii)
+!  r0      =  A scaling constant at T0 in mgC^3/4.h^-1 		              (10e-3  = M.norvegica  | 1       = T.raschii)
+!  p_zoo   =  Proportion of zooplankton used for feed 			      (0.5    = M.norvegica  | 0.2     = T.raschii)
+!  p_phyto =  Proportion of phytoplankton used for feed 		      (0.5    = M.norvegica  | 0.8     = T.raschii)
+!  w_molt  =  Percentage of mass loss due to moulting exuvie in % of mass     (0.062  = M.norvegica  | 0.05    = T.raschii)
+
+
+&physio_nml
+
+ species = 0,
+ aw      = 7.5e-5,
+ bw      = 3.79,
+ ei      = 0.2,
+ a_molt  = 20.62,
+ b_molt  = -1.16,
+ k0      = 1,
+ h0      = 150,
+ A       = 0.6,
+ r0      = 10e-3,
+ p_zoo   = 0.5,
+ p_phyto = 0.5,
+ w_molt  = 0.062/
+
+
