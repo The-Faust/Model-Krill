@@ -6,12 +6,17 @@ FC = gfortran
 # flags for debugging or for maximum performance
 FCFLAGS = -g -fbounds-check
 FCFLAGS = -O2
+
 # flags forall (e.g. look for system .mod files, required in gfortran)
 FCFLAGS += -I/usr/include
 
 # List of executables to be build within package
 PROGRAMS = test_prog1 test_prog2
-OBJECTS = class_krill.o listKrill_mod.o abstList_mod.o link_mod.o
+OBJECTS = class_krill.o listKrill_mod.o abstList_mod.o link_mod. ran_mod.oo
+TEST_PROG1_OBJ = class_krill.o listKrill_mod.o
+LIST_KRILL_OBJ = abstList_mod.o class_krill.o
+
+vpath %.f90 ../../src
 
 # 'make' builds all
 all: $(PROGRAMS)
@@ -22,10 +27,14 @@ all: $(PROGRAMS)
 test_prog1: $(OBJECTS)
 test_prog2: $(OBJECTS)
 
-test_prog1.o: class_krill.o listKrill_mod.o
-test_prog2.o: class_krill.o listKrill_mod.o
+<<<<<<< HEAD:makefile
+test_prog1.o: class_krill.o listKrill_mod.o ran_mod.o
+test_prog2.o: class_krill.o listKrill_mod.o ran_mod.o
+=======
+test_prog1.o: $(TEST_PROG1_OBJ)
+>>>>>>> 4ad79c10e64ac96474880bea6d0f91768f661773:tests-model/test1/makefile
 
-listKrill_mod.o: abstList_mod.o class_krill.o
+listKrill_mod.o: $(LIST_KRILL_OBJ)
 
 abstList_mod.o: link_mod.o
 
@@ -36,15 +45,20 @@ abstList_mod.o: link_mod.o
 	$(FC) $(FCFLAGS) -o $@ $^ $(LDFLAGS)
 
 %.o: %.f90
-	$(FC) $(FCFLAGS) -c $<
+	$(FC) $(FCFLAGS) -c $< 
 
 # utility targets
-.PHONY: clean veryclean
+.PHONY: clean veryclean test1
 
 clean:
 	rm -f *.o *.mod *.MOD
 
 veryclean: clean
 	rm -f *~ $(PROGRAMS)
+
+test1:
+	make
+	make clean
+	./test_prog1
 
 
