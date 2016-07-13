@@ -86,6 +86,11 @@ module class_krill
 		procedure, public :: get_phyto
 		procedure, public :: get_zoo
 
+		! setters
+		procedure, public :: set_T
+		procedure, public :: set_zoo
+		procedure, public :: set_phyto
+
 		! Constructor
 		procedure, public :: init_krill    ! initialisator for a krill object
 		
@@ -256,7 +261,7 @@ contains
 
     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     !
-    ! accessors
+    ! getters
     !
     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
@@ -365,7 +370,29 @@ contains
 		get_zoo = this%zoo
 	end function get_zoo
 
+	!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	!
+	! setters
+	!
+	!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	
+	subroutine set_T(this, T)
+		class(Krill) :: this
+		real :: T
+		this%T = T
+	end subroutine set_T
 
+	subroutine set_phyto(this, phyto)
+		class(Krill) :: this
+		real :: phyto
+		this%phyto = phyto
+	end subroutine set_phyto
+
+	subroutine set_zoo(this, zoo)
+		class(Krill) :: this
+		real :: zoo
+		this%zoo = zoo
+	end subroutine set_zoo
 
     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     !
