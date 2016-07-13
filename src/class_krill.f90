@@ -29,30 +29,30 @@ module class_krill
 		integer :: species 
 
 		!! Parameters of ingestion, respiration, develop and arrhenius functions
-		real, public :: aw        ! The regression constant of length(mm)/mass(mgC) relationship (From Agersted et Nielsen 2014)
-		real, public :: bw        ! The regression coefficient of length(mm)/mass(mgC) relationship (From Agersted et Nielsen 2014)
-		real, public :: ei        ! The activation energy of the process considered in eV
-		real, public :: a_molt    ! The regression constant of IMP(day) relationship from Sameoto 1976 Journal of the Fisheries Board of Canada (CJFAS) 33:2568-2576 (GSL)
-		real, public :: b_molt    ! The regression coefficient of IMP(day)/temp(°C) relationship from Sameoto 1976 Journal of the Fisheries Board of Canada (CJFAS) 33:2568-2576 (GSL)
-		real, public :: k0        ! A scaling constant at T0 in l.h^–1.mgC^-3/4
-		real, public :: h0        ! A scaling constant at T0 in h.mgCfood^-1.mgC^-3/4
-		real, public :: A         ! Assimilation efficiency coefficent in %
-		real, public :: r0        ! A scaling constant at T0 in mgC^3/4.h^-1
-		real, public :: p_zoo     ! Proportion of zooplankton used for feed
-		real, public :: p_phyto   ! Proportion of phytoplankton used for feed
-		real, public :: w_molt    ! Percentage of mass loss due to moulting exuvie in % of mass (From Sameoto 1976)
+		real :: aw        ! The regression constant of length(mm)/mass(mgC) relationship (From Agersted et Nielsen 2014)
+		real :: bw        ! The regression coefficient of length(mm)/mass(mgC) relationship (From Agersted et Nielsen 2014)
+		real :: ei        ! The activation energy of the process considered in eV
+		real :: a_molt    ! The regression constant of IMP(day) relationship from Sameoto 1976 Journal of the Fisheries Board of Canada (CJFAS) 33:2568-2576 (GSL)
+		real :: b_molt    ! The regression coefficient of IMP(day)/temp(°C) relationship from Sameoto 1976 Journal of the Fisheries Board of Canada (CJFAS) 33:2568-2576 (GSL)
+		real :: k0        ! A scaling constant at T0 in l.h^–1.mgC^-3/4
+		real :: h0        ! A scaling constant at T0 in h.mgCfood^-1.mgC^-3/4
+		real :: A         ! Assimilation efficiency coefficent in %
+		real :: r0        ! A scaling constant at T0 in mgC^3/4.h^-1
+		real :: p_zoo     ! Proportion of zooplankton used for feed
+		real :: p_phyto   ! Proportion of phytoplankton used for feed
+		real :: w_molt    ! Percentage of mass loss due to moulting exuvie in % of mass (From Sameoto 1976)
 
 		!! environment
-		real, public :: T
-		real, public :: phyto
-		real, public :: zoo
+		real :: T
+		real :: phyto
+		real :: zoo
 
     contains
 
 		private
 
 		! Methods
-		procedure, public :: arrhenius
+		procedure :: arrhenius
 		procedure :: breath
 		procedure, public :: debug
 		procedure, public :: develop
