@@ -20,55 +20,54 @@ module class_krill
     type Krill
         private
 
-		!! Description of caracteristic of individual krill
-		real :: sizer
-		real :: mass
-		real :: dev_freq
-		real :: molt_size
-		integer :: sex
-		integer :: species 
+        !! Description of caracteristic of individual krill
+	real :: sizer
+	real :: mass
+	real :: dev_freq
+	real :: molt_size
+	integer :: sex
+	integer :: species 
 
-		!! Parameters of ingestion, respiration, develop and arrhenius functions
-		real, public :: aw        ! The regression constant of length(mm)/mass(mgC) relationship (From Agersted et Nielsen 2014)
-		real, public :: bw        ! The regression coefficient of length(mm)/mass(mgC) relationship (From Agersted et Nielsen 2014)
-		real, public :: ei        ! The activation energy of the process considered in eV
-		real, public :: a_molt    ! The regression constant of IMP(day) relationship from Sameoto 1976 Journal of the Fisheries Board of Canada (CJFAS) 33:2568-2576 (GSL)
-		real, public :: b_molt    ! The regression coefficient of IMP(day)/temp(°C) relationship from Sameoto 1976 Journal of the Fisheries Board of Canada (CJFAS) 33:2568-2576 (GSL)
-		real, public :: k0        ! A scaling constant at T0 in l.h^–1.mgC^-3/4
-		real, public :: h0        ! A scaling constant at T0 in h.mgCfood^-1.mgC^-3/4
-		real, public :: A         ! Assimilation efficiency coefficent in %
-		real, public :: r0        ! A scaling constant at T0 in mgC^3/4.h^-1
-		real, public :: p_zoo     ! Proportion of zooplankton used for feed
-		real, public :: p_phyto   ! Proportion of phytoplankton used for feed
-		real, public :: w_molt    ! Percentage of mass loss due to moulting exuvie in % of mass (From Sameoto 1976)
+	!! Parameters of ingestion, respiration, develop and arrhenius functions
+	real, public :: aw        ! The regression constant of length(mm)/mass(mgC) relationship (From Agersted et Nielsen 2014)
+	real, public :: bw        ! The regression coefficient of length(mm)/mass(mgC) relationship (From Agersted et Nielsen 2014)
+	real, public :: ei        ! The activation energy of the process considered in eV
+	real, public :: a_molt    ! The regression constant of IMP(day) relationship from Sameoto 1976 Journal of the Fisheries Board of Canada (CJFAS) 33:2568-2576 (GSL)
+	real, public :: b_molt    ! The regression coefficient of IMP(day)/temp(°C) relationship from Sameoto 1976 Journal of the Fisheries Board of Canada (CJFAS) 33:2568-2576 (GSL)
+	real, public :: k0        ! A scaling constant at T0 in l.h^–1.mgC^-3/4
+	real, public :: h0        ! A scaling constant at T0 in h.mgCfood^-1.mgC^-3/4
+	real, public :: A         ! Assimilation efficiency coefficent in %
+	real, public :: r0        ! A scaling constant at T0 in mgC^3/4.h^-1
+	real, public :: p_zoo     ! Proportion of zooplankton used for feed
+	real, public :: p_phyto   ! Proportion of phytoplankton used for feed
+	real, public :: w_molt    ! Percentage of mass loss due to moulting exuvie in % of mass (From Sameoto 1976)
 
-		!! environment
-		real, public :: T
-		real, public :: phyto
-		real, public :: zoo
+	!! environment
+	real, public :: T
+	real, public :: phyto
+	real, public :: zoo
 
     contains
 
-		private
+	private
 
-		! Methods
-		procedure, public :: arrhenius
-		procedure :: breath
-		procedure, public :: debug
-		procedure, public :: develop
-		procedure, public :: grow
-		procedure :: ingest
-		procedure, public :: molt
-		procedure, public :: to_string
+	! Methods
+	procedure, public :: arrhenius
+	procedure :: breath
+	procedure, public :: debug
+	procedure, public :: develop
+	procedure, public :: grow
+	procedure :: ingest
+	procedure, public :: molt
 
-		! Accessors 
-		procedure, public :: get_size
-		procedure, public :: get_mass
+	! Accessors 
+	procedure, public :: get_size
+	procedure, public :: get_mass
 
-		! Constructor
-		procedure, public :: init_krill    ! initialisator for a krill object
-		
-	end type Krill
+	! Constructor
+	procedure, public :: init_krill    ! initialisator for a krill object
+	
+    end type Krill
 
 contains
 
@@ -97,7 +96,7 @@ contains
     !
     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     real function breath(this)
-		class(Krill) :: this
+	class(Krill) :: this
 
         breath  = this%r0 * this%mass * this%arrhenius() * 24
     end function breath
@@ -112,7 +111,12 @@ contains
             class(Krill) :: this
 
             write(*, *) "== Krill =="
-            write(*, '(T4, A, T17, A)'), "species: ", this%to_string()
+            select case (this%species)
+                case (M_norvegica)
+                    write(*, '(T4, A, T17, A)'), "species: ", "M. norvegica"
+                case (T_raschii)
+                    write(*, '(T4, A, T17, A)'), "species:", "T. raschii"
+            end select
             select case (this%sex)
                 case (SEX_F)
                     write(*, '(T4, A, T17, A)'), "sex: ", "F"
@@ -218,23 +222,6 @@ contains
 
     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     !
-    ! to_string returns a string representation of the given species
-    !
-    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    character(30) function to_string(this)
-        class(Krill) :: this
-
-        select case (this%species)
-            case (0)
-                to_string = "M_norvegica"
-            case (1)
-                to_string = "T_raschii"
-        end select
-    end function to_string
-
-
-    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    !
     ! accessors
     !
     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -255,8 +242,8 @@ contains
     ! new_krill initializes a new Krill object
     !
     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    subroutine init_krill(this, sizer, sex, species, aw, bw, ei, a_molt, b_molt, k0, h0, A, r0, &
-		&					 p_zoo, p_phyto, w_molt, T, phyto, zoo)
+    subroutine init_krill(this, sizer, species, sex, aw, bw, ei, a_molt, b_molt, k0, h0,&
+                           A, r0, p_zoo, p_phyto, w_molt, T, phyto, zoo)
         ! creating a krill object
         class(Krill) :: this
 
@@ -264,22 +251,22 @@ contains
         integer :: sex
         integer :: species
 
-		real, optional :: aw       
-		real, optional :: bw       
-		real, optional :: ei       
-		real, optional :: a_molt   
-		real, optional :: b_molt   
-		real, optional :: k0       
-		real, optional :: h0       
-		real, optional :: A        
-		real, optional :: r0       
-		real, optional :: p_zoo    
-		real, optional :: p_phyto  
-		real, optional :: w_molt 
+	real, optional :: aw       
+	real, optional :: bw       
+	real, optional :: ei       
+	real, optional :: a_molt   
+	real, optional :: b_molt   
+	real, optional :: k0       
+	real, optional :: h0       
+	real, optional :: A        
+	real, optional :: r0       
+	real, optional :: p_zoo    
+	real, optional :: p_phyto  
+	real, optional :: w_molt 
 
-		real, optional :: T
-		real, optional :: phyto
-		real, optional :: zoo  
+	real, optional :: T
+	real, optional :: phyto
+	real, optional :: zoo  
 
         ! preconditions
         if (sex /= SEX_M .and. sex /= SEX_F) then
@@ -289,9 +276,10 @@ contains
         if (sizer < 0 .and. sizer > SIZE_MAX) then
             stop 'SIZE_ERROR'
         endif
-	
+
 
         ! giving values to attributes
+        this%species = species
         this%sex = sex
         this%sizer = sizer
         this%mass = this%aw * (this%sizer ** this%bw)
@@ -302,172 +290,172 @@ contains
         ! Parameters specific of M. norvegica for allometric relationship, arrhenius,
         ! ingestion, respiration, development and moult equations
         if(species == 0) then
-			if(present(aw)) then
-                    this%aw = aw
-			else 
-	            this%aw = 7.5e-5
-			end if 
+                if(present(aw)) then
+                        this%aw = aw
+                else 
+                        this%aw = 7.5e-5
+                end if 
 
-			if(present(bw)) then
-                    this%bw = bw
-			else 
-		    	this%bw = 3.79
-			end if 
-		
-			if(present(ei)) then
-                this%ei = ei
-			else 
-		    	this%ei = 0.2
-			end if 
+                if(present(bw)) then
+                         this%bw = bw
+                else 
+                        this%bw = 3.79
+                end if 
 
-			if(present(k0)) then
-                this%k0 = k0
-			else 
-		    	this%k0 = 1.0
-			end if 
+                if(present(ei)) then
+                        this%ei = ei
+                else 
+                        this%ei = 0.2
+                end if 
 
-			if(present(h0)) then
-                this%h0 = h0
-			else 
-		    	this%h0 = 150.0
-			end if 
-		
-			if(present(A)) then
-                this%A = A
-			else 
-		    	this%A = 0.6
-			end if 
+                if(present(k0)) then
+                        this%k0 = k0
+                else 
+                        this%k0 = 1.0
+                end if 
 
-			if(present(r0)) then
-                this%r0 = r0
-			else 
-		    	this%r0 = 10e-3
-			end if 
+                if(present(h0)) then
+                        this%h0 = h0
+                else 
+                        this%h0 = 150.0
+                end if 
 
-			if(present(w_molt)) then
-                this%w_molt = w_molt
-			else 
-		    	this%w_molt = 0.062
-			end if 
+                if(present(A)) then
+                        this%A = A
+                else 
+                        this%A = 0.6
+                end if 
 
-			if(present(a_molt)) then
-                this%a_molt = a_molt
-			else 
-		   		this%a_molt = 20.62
-			end if 
+                if(present(r0)) then
+                        this%r0 = r0
+                else 
+                        this%r0 = 10e-3
+                end if 
 
-			if(present(b_molt)) then
-                this%b_molt = b_molt
-			else 
-		    	this%b_molt = -1.16
-			end if 
+                if(present(w_molt)) then
+                        this%w_molt = w_molt
+                else 
+                        this%w_molt = 0.062
+                end if 
 
-			if(present(p_phyto)) then
-                this%p_phyto = p_phyto
-			else 
-		    	this%p_phyto = 0.2
-			end if 
+                if(present(a_molt)) then
+                        this%a_molt = a_molt
+                else 
+                        this%a_molt = 20.62
+                end if 
 
-			if(present(p_zoo)) then
-                this%p_zoo = p_zoo
-			else 
-		    	this%p_zoo = 0.8
-			endif
-       	endif
+                if(present(b_molt)) then
+                        this%b_molt = b_molt
+                else 
+                        this%b_molt = -1.16
+                end if 
+
+                if(present(p_phyto)) then
+                        this%p_phyto = p_phyto
+                else 
+                        this%p_phyto = 0.2
+                end if 
+
+                if(present(p_zoo)) then
+                        this%p_zoo = p_zoo
+                else 
+                        this%p_zoo = 0.8
+                endif
+        endif
 
         ! Parameters specific of T.raschii for allometric relationship, arrhenius,
         ! ingestion, respiration, development and moult equations
         if(species == 1) then
-			if(present(aw)) then
-                this%aw = aw
-			else 
-	            this%aw = 0.000717
-			end if 
+                if(present(aw)) then
+                        this%aw = aw
+                else 
+                        this%aw = 0.000717
+                end if 
 
-			if(present(bw)) then
-                this%bw = bw
-			else 
-		    	this%bw = 3.17
-			end if 
+                if(present(bw)) then
+                        this%bw = bw
+                else 
+                        this%bw = 3.17
+                end if 
 
-			if(present(ei)) then
-                this%ei = ei
-			else 
-		    	this%ei = 0.2
-			end if 
+                if(present(ei)) then
+                        this%ei = ei
+                else 
+                        this%ei = 0.2
+                end if 
 
-			if(present(k0)) then
-                this%k0 = k0
-			else 
-		    	this%k0 = 1.0
-			end if 
+                if(present(k0)) then
+                        this%k0 = k0
+                else 
+                        this%k0 = 1.0
+                end if 
 
-			if(present(h0)) then
-                this%h0 = h0
-			else 
-		    	this%h0 = 1
-			end if 
-		
-			if(present(A)) then
-                this%A = A
-			else 
-		    	this%A = 0.6
-			end if 
+                if(present(h0)) then
+                        this%h0 = h0
+                else 
+                        this%h0 = 1
+                end if 
 
-			if(present(r0)) then
-                this%r0 = r0
-			else 
-		    	this%r0 = 10e-3
-			end if 
+                if(present(A)) then
+                        this%A = A
+                else 
+                        this%A = 0.6
+                end if 
 
-			if(present(w_molt)) then
-                this%w_molt = w_molt
-			else 
-		    	this%w_molt = 0.05
-			end if 
+                if(present(r0)) then
+                        this%r0 = r0
+                else 
+                        this%r0 = 10e-3
+                end if 
 
-			if(present(a_molt)) then
-                this%a_molt = a_molt
-			else 
-		    	this%a_molt = 20.62
-			end if 
+                if(present(w_molt)) then
+                        this%w_molt = w_molt
+                else 
+                        this%w_molt = 0.05
+                end if 
 
-			if(present(b_molt)) then
-                this%b_molt = b_molt
-			else 
-		    	this%b_molt = -1.16
-			end if 
+                if(present(a_molt)) then
+                        this%a_molt = a_molt
+                else 
+                        this%a_molt = 20.62
+                end if 
 
-			if(present(p_phyto)) then
-                this%p_phyto = p_phyto
-			else 
-		    	this%p_phyto = 0.8
-			end if 
+                if(present(b_molt)) then
+                        this%b_molt = b_molt
+                else 
+                        this%b_molt = -1.16
+                end if 
 
-			if(present(p_zoo)) then
-            	this%p_zoo = p_zoo
-			else 
-		    	this%p_zoo = 0.2
-			endif
-		endif
+                if(present(p_phyto)) then
+                        this%p_phyto = p_phyto
+                else 
+                        this%p_phyto = 0.8
+                end if 
 
-		if(present(phyto)) then
-			this%phyto = phyto
-		else
-			this%phyto = 1
-		endif
+                if(present(p_zoo)) then
+                        this%p_zoo = p_zoo
+                else 
+                        this%p_zoo = 0.2
+                endif
+        endif
 
-		if(present(zoo)) then
-			this%zoo = zoo
-		else
-			this%zoo = 1
-		endif
+        if(present(phyto)) then
+                this%phyto = phyto
+        else
+                this%phyto = 1
+        endif
 
-		if(present(T)) then
-			this%T = T
-		else
-			this%T = 1
-		endif
+        if(present(zoo)) then
+                this%zoo = zoo
+        else
+                this%zoo = 1
+        endif
+
+        if(present(T)) then
+                this%T = T
+        else
+                this%T = 1
+        endif
 
     end subroutine init_krill
 end module class_krill

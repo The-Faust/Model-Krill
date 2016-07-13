@@ -10,7 +10,7 @@ FCFLAGS = -O2
 FCFLAGS += -I/usr/include
 
 # List of executables to be build within package
-PROGRAMS = test_prog1
+PROGRAMS = test_prog1 test_prog2
 OBJECTS = class_krill.o listKrill_mod.o abstList_mod.o link_mod.o
 
 # 'make' builds all
@@ -20,8 +20,10 @@ all: $(PROGRAMS)
 # growth_trunk.o: krill_mod.o
 
 test_prog1: $(OBJECTS)
+test_prog2: $(OBJECTS)
 
 test_prog1.o: class_krill.o listKrill_mod.o
+test_prog2.o: class_krill.o listKrill_mod.o
 
 listKrill_mod.o: abstList_mod.o class_krill.o
 
