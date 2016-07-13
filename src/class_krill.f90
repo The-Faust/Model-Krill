@@ -61,9 +61,30 @@ module class_krill
 		procedure, public :: molt
 		procedure, public :: to_string
 
-		! Accessors 
+		! getters 
 		procedure, public :: get_size
 		procedure, public :: get_mass
+		procedure, public :: get_dev_freq
+		procedure, public :: get_molt_size
+		procedure, public :: get_sex
+		procedure, public :: get_specie
+
+		procedure, public :: get_aw
+		procedure, public :: get_bw
+		procedure, public :: get_ei
+		procedure, public :: get_a_molt
+		procedure, public :: get_b_molt
+		procedure, public :: get_k0
+		procedure, public :: get_h0
+		procedure, public :: get_A
+		procedure, public :: get_r0
+		procedure, public :: get_p_zoo
+		procedure, public :: get_p_phyto
+		procedure, public :: get_w_molt
+
+		procedure, public :: get_T
+		procedure, public :: get_phyto
+		procedure, public :: get_zoo
 
 		! Constructor
 		procedure, public :: init_krill    ! initialisator for a krill object
@@ -238,16 +259,112 @@ contains
     ! accessors
     !
     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    real function get_mass(this)
-        class(Krill) :: this
-        get_mass = this%mass
-    end function get_mass
-
 
     real function get_size(this)
         class(Krill) :: this
         get_size = this%sizer
     end function get_size
+
+    real function get_mass(this)
+        class(Krill) :: this
+        get_mass = this%mass
+    end function get_mass
+
+	real function get_dev_freq(this)
+		class(Krill) :: this
+		get_dev_freq = this%dev_freq
+	end function get_dev_freq
+
+	real function get_molt_size(this)
+		class(Krill) :: this
+		get_molt_size = this%molt_size
+	end function get_molt_size
+
+	real function get_sex(this)
+		class(Krill) :: this
+		get_sex = this%sex
+	end function get_sex
+
+	real function get_specie(this)
+		class(Krill) :: this
+		get_specie = this%species
+	end function get_specie
+
+	real function get_aw(this)
+		class(Krill) :: this
+		get_aw = this%aw
+	end function get_aw
+
+	real function get_bw(this)
+		class(Krill) :: this
+		get_bw = this%bw
+	end function get_bw
+
+	real function get_ei(this)
+		class(Krill) :: this
+		get_ei = this%ei
+	end function get_ei
+
+	real function get_a_molt(this)
+		class(Krill) :: this
+		get_a_molt = this%a_molt
+	end function get_a_molt
+
+	real function get_b_molt(this)
+		class(Krill) :: this
+		get_b_molt = this%b_molt
+	end function get_b_molt
+
+	real function get_k0(this)
+		class(Krill) :: this
+		get_k0 = this%k0
+	end function get_k0
+
+	real function get_h0(this)
+		class(Krill) :: this
+		get_h0 = this%h0
+	end function get_h0
+
+	real function get_A(this)
+		class(Krill) :: this
+		get_A = this%A
+	end function get_A
+
+	real function get_r0(this)
+		class(Krill) :: this
+		get_r0= this%r0
+	end function get_r0
+
+	real function get_p_zoo(this)
+		class(Krill) :: this
+		get_p_zoo = this%p_zoo
+	end function get_p_zoo
+
+	real function get_p_phyto(this)
+		class(Krill) :: this
+		get_p_phyto = this%p_phyto
+	end function get_p_phyto
+
+	real function get_w_molt(this)
+		class(Krill) :: this
+		get_w_molt = this%w_molt
+	end function get_w_molt
+
+	real function get_T(this)
+		class(Krill) :: this
+		get_T = this%T
+	end function get_T
+
+	real function get_phyto(this)
+		class(Krill) :: this
+		get_phyto = this%phyto
+	end function get_phyto
+
+	real function get_zoo(this)
+		class(Krill) :: this
+		get_zoo = this%zoo
+	end function get_zoo
+
 
 
     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
