@@ -7,6 +7,7 @@ implicit none
 
 type(listKrill) :: list
 type(Krill) :: k
+integer :: i
 
 
 real, parameter :: T = 12.0     ! TEMPORARY
