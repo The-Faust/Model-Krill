@@ -11,8 +11,8 @@ FCFLAGS = -O2
 FCFLAGS += -I/usr/include
 
 # List of executables to be build within package
-PROGRAMS = test_prog1 test_prog2
-OBJECTS = class_krill.o listKrill_mod.o abstList_mod.o link_mod. ran_mod.oo
+PROGRAMS = test_prog1 #test_prog2
+OBJECTS = class_krill.o listKrill_mod.o abstList_mod.o link_mod.o # ran_mod.o
 TEST_PROG1_OBJ = class_krill.o listKrill_mod.o
 LIST_KRILL_OBJ = abstList_mod.o class_krill.o
 
@@ -28,8 +28,8 @@ test_prog1: $(OBJECTS)
 test_prog2: $(OBJECTS)
 
 <<<<<<< HEAD:makefile
-test_prog1.o: class_krill.o listKrill_mod.o ran_mod.o
-test_prog2.o: class_krill.o listKrill_mod.o ran_mod.o
+test_prog1.o: class_krill.o listKrill_mod.o 
+test_prog2.o: class_krill.o listKrill_mod.o  
 =======
 test_prog1.o: $(TEST_PROG1_OBJ)
 >>>>>>> 4ad79c10e64ac96474880bea6d0f91768f661773:tests-model/test1/makefile

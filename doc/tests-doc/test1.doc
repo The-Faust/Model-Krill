@@ -1,0 +1,12 @@
+﻿doc on test1
+
+to call test 1 you need to be in directory ../ModelKrill/tests-model/test1
+
+	make : build all dependencies, object files and executable test_prog1
+
+	make clean : delete all objects and mod files in directory
+
+	make veryclean : same as clean except it also destroys executables
+
+	make test1 : build project delete objects and mod files and launch
+		programm test_prog1
