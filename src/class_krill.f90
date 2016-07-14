@@ -20,34 +20,6 @@ module class_krill
     type Krill
         private
 
-<<<<<<< HEAD
-        !! Description of caracteristic of individual krill
-	real :: sizer
-	real :: mass
-	real :: dev_freq
-	real :: molt_size
-	integer :: sex
-	integer :: species 
-
-	!! Parameters of ingestion, respiration, develop and arrhenius functions
-	real, public :: aw        ! The regression constant of length(mm)/mass(mgC) relationship (From Agersted et Nielsen 2014)
-	real, public :: bw        ! The regression coefficient of length(mm)/mass(mgC) relationship (From Agersted et Nielsen 2014)
-	real, public :: ei        ! The activation energy of the process considered in eV
-	real, public :: a_molt    ! The regression constant of IMP(day) relationship from Sameoto 1976 Journal of the Fisheries Board of Canada (CJFAS) 33:2568-2576 (GSL)
-	real, public :: b_molt    ! The regression coefficient of IMP(day)/temp(°C) relationship from Sameoto 1976 Journal of the Fisheries Board of Canada (CJFAS) 33:2568-2576 (GSL)
-	real, public :: k0        ! A scaling constant at T0 in l.h^–1.mgC^-3/4
-	real, public :: h0        ! A scaling constant at T0 in h.mgCfood^-1.mgC^-3/4
-	real, public :: A         ! Assimilation efficiency coefficent in %
-	real, public :: r0        ! A scaling constant at T0 in mgC^3/4.h^-1
-	real, public :: p_zoo     ! Proportion of zooplankton used for feed
-	real, public :: p_phyto   ! Proportion of phytoplankton used for feed
-	real, public :: w_molt    ! Percentage of mass loss due to moulting exuvie in % of mass (From Sameoto 1976)
-
-	!! environment
-	real, public :: T
-	real, public :: phyto
-	real, public :: zoo
-=======
 		!! Description of caracteristic of individual krill
 		real :: sizer
 		real :: mass
@@ -74,26 +46,11 @@ module class_krill
 		real :: T
 		real :: phyto
 		real :: zoo
->>>>>>> 53b4e1e0d055f18c00b7a4f3a0813c7802f8b0c9
 
     contains
 
 	private
 
-<<<<<<< HEAD
-	! Methods
-	procedure, public :: arrhenius
-	procedure :: breath
-	procedure, public :: debug
-	procedure, public :: develop
-	procedure, public :: grow
-	procedure :: ingest
-	procedure, public :: molt
-
-	! Accessors 
-	procedure, public :: get_size
-	procedure, public :: get_mass
-=======
 		! Methods
 		procedure :: arrhenius
 		procedure :: breath
@@ -102,7 +59,6 @@ module class_krill
 		procedure, public :: grow
 		procedure :: ingest
 		procedure, public :: molt
-		procedure, public :: to_string
 
 		! getters 
 		procedure, public :: get_size
@@ -133,7 +89,6 @@ module class_krill
 		procedure, public :: set_T
 		procedure, public :: set_zoo
 		procedure, public :: set_phyto
->>>>>>> 53b4e1e0d055f18c00b7a4f3a0813c7802f8b0c9
 
 	! Constructor
 	procedure, public :: init_krill    ! initialisator for a krill object
@@ -293,28 +248,7 @@ contains
 
     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     !
-<<<<<<< HEAD
-    ! accessors
-=======
-    ! to_string returns a string representation of the given species
-    !
-    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    character(30) function to_string(this)
-        class(Krill) :: this
-
-        select case (this%species)
-            case (0)
-                to_string = "M_norvegica"
-            case (1)
-                to_string = "T_raschii"
-        end select
-    end function to_string
-
-
-    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    !
     ! getters
->>>>>>> 53b4e1e0d055f18c00b7a4f3a0813c7802f8b0c9
     !
     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
@@ -521,25 +455,25 @@ contains
                 if(present(k0)) then
                         this%k0 = k0
                 else 
-                        this%k0 = 1.0
+                        this%k0 = 10.0
                 end if 
 
                 if(present(h0)) then
                         this%h0 = h0
                 else 
-                        this%h0 = 150.0
+                        this%h0 = 120.0
                 end if 
 
                 if(present(A)) then
                         this%A = A
                 else 
-                        this%A = 0.6
+                        this%A = 0.70
                 end if 
 
                 if(present(r0)) then
                         this%r0 = r0
                 else 
-                        this%r0 = 10e-3
+                        this%r0 = 6.33e-4
                 end if 
 
                 if(present(w_molt)) then
