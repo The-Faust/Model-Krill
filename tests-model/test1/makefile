@@ -12,9 +12,10 @@ FCFLAGS += -I/usr/include
 
 # List of executables to be build within package
 PROGRAMS = test_prog1 test_prog2
-OBJECTS = class_krill.o listKrill_mod.o abstList_mod.o link_mod.o ran_mod.o
-TEST_PROG1_OBJ = class_krill.o listKrill_mod.o
+OBJECTS = class_krill.o listKrill_mod.o abstList_mod.o link_mod.o ran_mod.o utility_krill_mod.o
+TEST_PROG1_OBJ = class_krill.o listKrill_mod.o utility_krill_mod.o
 TEST_PROG2_OBJ = class_krill.o listKrill_mod.o ran_mod.o
+UTILITY_OBJ = class_krill.o listKrill_mod.o
 LIST_KRILL_OBJ = abstList_mod.o class_krill.o
 
 vpath %.f90 ../../src
@@ -30,6 +31,8 @@ test_prog2: $(OBJECTS)
 
 test_prog1.o: $(TEST_PROG1_OBJ)
 test_prog2.o: $(TEST_PROG2_OBJ) 
+
+utility_krill_mod.o: $(UTILITY_OBJ)
 
 listKrill_mod.o: $(LIST_KRILL_OBJ)
 
