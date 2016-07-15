@@ -11,12 +11,12 @@ FCFLAGS = -g -fbounds-check
 FCFLAGS = -O2
 
 # flags forall (e.g. look for system .mod files, required in gfortran)
-#FCFLAGS += -I/usr/include
+FCFLAGS += -I/usr/include
 OBJECTS = class_krill.o listKrill_mod.o abstList_mod.o link_mod.o ran_mod.o utility_krill_mod.o
 UTILITY_OBJ = class_krill.o listKrill_mod.o
 LIST_KRILL_OBJ = abstList_mod.o class_krill.o
 
-LIBRARY = KrillModel.a
+LIBRARY = KrillModel_lib.a
 
 vpath %.f90 ../src
 
