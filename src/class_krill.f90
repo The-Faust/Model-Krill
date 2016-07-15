@@ -92,8 +92,8 @@ module class_krill
 		procedure, public :: set_zoo
 		procedure, public :: set_phyto
 
-	! Constructor
-	procedure, public :: init_krill    ! initialisator for a krill object
+		! Constructor
+		procedure, public :: init_krill    ! initialisator for a krill object
 	
     end type Krill
 

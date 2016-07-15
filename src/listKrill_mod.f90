@@ -22,7 +22,7 @@ contains
 
 		call this%reset()
 		do i =  1, (krillPosition - 1)
-			this%next()
+			call this%next()
 		end do
 	end subroutine thisKrill
 	
@@ -67,11 +67,11 @@ contains
 		end select
 	end function currentKrill
 
-	function matrixKrill(this)
+	subroutine matrixKrill(this)
 		class(listKrill) :: this
 		class(*), pointer :: curr
 
-		real, dimension(:,:), allocatable :: matrixKrill		
+		real, dimension(:,:), allocatable :: Krills		
 		real, dimension(:), allocatable :: buff_matrix
 		integer :: krillNumber 
 		
@@ -84,7 +84,6 @@ contains
 			
 			select type(curr)
 			type is (Krill)
-				allocate(buff_matrix(18 * krillNumber))
 				buff_matrix = [buff_matrix, curr%get_all()]
 			end select
 
@@ -92,8 +91,10 @@ contains
 			call this%next()
 		end do
 
-		matrixKrill = reshape(buff_matrix, (/krillNumber, 18/))
-		print *, matrixKrill
+		Krills = reshape(buff_matrix, (/krillNumber, 18/))
+		print *, Krills
+
 		deallocate(buff_matrix)
-	end function matrixKrill 				
+		deallocate(Krills)
+	end subroutine matrixKrill 				
 end module listKrill_mod
