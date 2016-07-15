@@ -12,7 +12,7 @@ module class_krill
     integer, parameter, public :: SEX_M = 0
     integer, parameter, public :: SEX_F = 1
     real, parameter :: EPS = 10e-6
-    real, parameter :: SIZE_MAX = 50
+    real, parameter :: SIZE_MAX = 50.0
 
 
     ! allows acces to the krill class
@@ -84,6 +84,8 @@ module class_krill
 		procedure, public :: get_T
 		procedure, public :: get_phyto
 		procedure, public :: get_zoo
+
+		procedure, public :: get_all
 
 		! setters
 		procedure, public :: set_T
@@ -282,6 +284,8 @@ contains
 		get_specie = this%species
 	end function get_specie
 
+
+
 	real function get_aw(this)
 		class(Krill) :: this
 		get_aw = this%aw
@@ -342,6 +346,8 @@ contains
 		get_w_molt = this%w_molt
 	end function get_w_molt
 
+
+
 	real function get_T(this)
 		class(Krill) :: this
 		get_T = this%T
@@ -356,6 +362,17 @@ contains
 		class(Krill) :: this
 		get_zoo = this%zoo
 	end function get_zoo
+
+
+	function get_all(this)
+		class(krill) :: this
+		
+		real, dimension(18) :: get_all
+
+		get_all = (/real(this%species), real(this%sex), this%sizer, this%mass, this%dev_freq, this%molt_size, this%aw, this%bw, this%ei, & 
+				&			this%a_molt, this%b_molt, this%k0, this%h0, this%A, this%r0, this%p_zoo, this%p_phyto, this%w_molt/)
+	end function get_all
+		
 
 	!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	!
@@ -381,13 +398,14 @@ contains
 		this%zoo = zoo
 	end subroutine set_zoo
 
+
     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     !
     ! new_krill initializes a new Krill object
     !
     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     subroutine init_krill(this, sizer, species, sex, aw, bw, ei, a_molt, b_molt, k0, h0,&
-                           A, r0, p_zoo, p_phyto, w_molt, T, phyto, zoo)
+        &                  A, r0, p_zoo, p_phyto, w_molt, T, phyto, zoo)
         ! creating a krill object
         class(Krill) :: this
 
@@ -395,29 +413,29 @@ contains
         integer :: sex
         integer :: species
 
-	real, optional :: aw       
-	real, optional :: bw       
-	real, optional :: ei       
-	real, optional :: a_molt   
-	real, optional :: b_molt   
-	real, optional :: k0       
-	real, optional :: h0       
-	real, optional :: A        
-	real, optional :: r0       
-	real, optional :: p_zoo    
-	real, optional :: p_phyto  
-	real, optional :: w_molt 
+		real, optional :: aw       
+		real, optional :: bw       
+		real, optional :: ei       
+		real, optional :: a_molt   
+		real, optional :: b_molt   
+		real, optional :: k0       
+		real, optional :: h0       
+		real, optional :: A        
+		real, optional :: r0       
+		real, optional :: p_zoo    
+		real, optional :: p_phyto  
+		real, optional :: w_molt 
 
-	real, optional :: T
-	real, optional :: phyto
-	real, optional :: zoo  
+		real, optional :: T
+		real, optional :: phyto
+		real, optional :: zoo  
 
         ! preconditions
         if (sex /= SEX_M .and. sex /= SEX_F) then
                 stop 'SEX_ERROR'
         endif
 
-        if (sizer < 0 .and. sizer > SIZE_MAX) then
+        if (sizer < 0.0 .and. sizer > SIZE_MAX) then
             stop 'SIZE_ERROR'
         endif
 
@@ -433,7 +451,7 @@ contains
 
         ! Parameters specific of M. norvegica for allometric relationship, arrhenius,
         ! ingestion, respiration, development and moult equations
-        if(species == 0) then
+        if(species == 0.0) then
                 if(present(aw)) then
                         this%aw = aw
                 else 
@@ -509,7 +527,7 @@ contains
 
         ! Parameters specific of T.raschii for allometric relationship, arrhenius,
         ! ingestion, respiration, development and moult equations
-        if(species == 1) then
+        if(species == 1.0) then
                 if(present(aw)) then
                         this%aw = aw
                 else 
@@ -537,7 +555,7 @@ contains
                 if(present(h0)) then
                         this%h0 = h0
                 else 
-                        this%h0 = 1
+                        this%h0 = 1.0
                 end if 
 
                 if(present(A)) then
@@ -586,19 +604,19 @@ contains
         if(present(phyto)) then
                 this%phyto = phyto
         else
-                this%phyto = 1
+                this%phyto = 1.0
         endif
 
         if(present(zoo)) then
                 this%zoo = zoo
         else
-                this%zoo = 1
+                this%zoo = 1.0
         endif
 
         if(present(T)) then
                 this%T = T
         else
-                this%T = 1
+                this%T = 1.0
         endif
 
     end subroutine init_krill
