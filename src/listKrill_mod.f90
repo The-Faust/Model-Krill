@@ -11,11 +11,21 @@ module listKrill_mod
 			procedure, public :: addKrill ! add krill in list
 			procedure, public :: current => currentKrill ! get krill pointed by iterator
 			procedure, public :: printList => printListKrill ! print the attributes of all krills in list
-			procedure, public :: matrixKrill ! return a matrix of all the attributes of all the krills 
+			procedure, public :: matrixKrill ! return a matrix of all the attributes of all the krills
+			procedure, public :: thisKrill ! allow acces to a specific krill 
 	end type listKrill
 
-contains 	
+contains
+	subroutine thisKrill(this, krillPosition)
+		class(listKrill) :: this
+		integer :: krillPosition
 
+		call this%reset()
+		do i =  1, (krillPosition - 1)
+			this%next()
+		end do
+	end subroutine thisKrill
+	
 	subroutine printListKrill(this)
 		class(listKrill) :: this
 		class(*), pointer :: curr
