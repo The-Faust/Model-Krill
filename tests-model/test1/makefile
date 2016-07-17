@@ -25,3 +25,16 @@ test_prog1: test_prog1.o
 
 test_prog1.o: test_prog1.f90
 	$(FC) $(FCFLAGS) -c $<
+
+.phony: clean veryclean test1
+
+clean:
+	rm -f *.o *.mod *.MOD
+
+veryclean: clean
+	rm -f *~ test_prog1
+
+test1:
+	make
+	make clean
+	./test_prog1
