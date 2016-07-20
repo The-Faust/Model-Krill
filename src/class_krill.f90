@@ -55,7 +55,7 @@ module class_krill
 		procedure :: arrhenius
 		procedure :: breath
 		procedure, public :: debug
-		procedure, public :: develop
+		procedure :: develop
 		procedure, public :: grow
 		procedure :: ingest
 		procedure, public :: molt
@@ -225,7 +225,7 @@ contains
     ! it updates the individual's size with the previously computed molt_factor.
     !
     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    subroutine molt(this, T)
+    subroutine molt(this)
         class(Krill) :: this
         real :: T
 
@@ -274,12 +274,12 @@ contains
 		get_molt_size = this%molt_size
 	end function get_molt_size
 
-	real function get_sex(this)
+	integer function get_sex(this)
 		class(Krill) :: this
 		get_sex = this%sex
 	end function get_sex
 
-	real function get_specie(this)
+	integer function get_specie(this)
 		class(Krill) :: this
 		get_specie = this%species
 	end function get_specie

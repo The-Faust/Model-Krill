@@ -12,13 +12,32 @@ FCFLAGS = -O2
 
 # flags forall (e.g. look for system .mod files, required in gfortran)
 FCFLAGS += -I/usr/include
+
+# libraries needed for linking
+LDFLAGS += -L/usr/lib
+LDFLAGS += -lnetcdff -lnetcdf
+# variables
 OBJECTS = class_krill.o listKrill_mod.o abstList_mod.o link_mod.o ran_mod.o utility_krill_mod.o
 UTILITY_OBJ = class_krill.o listKrill_mod.o
 LIST_KRILL_OBJ = abstList_mod.o class_krill.o
 
-LIBRARY = libKrillModel.a
-
 vpath %.f90 ../src
+
+
+
+
+
+# establishing dependencies and linking files
+# growth_trunk.o: krill_mod.o
+test_prog1: test_prog1.o $(OBJECTS)
+
+test_prog1.o: $(OBJECTS)
+
+utility_krill_mod.o: $(UTILITY_OBJ)
+
+listKrill_mod.o: $(LIST_KRILL_OBJ)
+
+abstList_mod.o: link_mod.o
 
 # General rules for building prog.o from prog.f90 or prog.F90; $< is
 # used in order to list only the first prerequisite (the source file)
@@ -29,24 +48,18 @@ vpath %.f90 ../src
 %.o: %.f90
 	$(FC) $(FCFLAGS) -c $<
 
-all: $(LIBRARY)
 
-# establishing dependencies and linking files
-# growth_trunk.o: krill_mod.o
-abstList_mod.o: link_mod.o
-
-listKrill_mod.o: $(LIST_KRILL_OBJ)
-
-utility_krill_mod.o: $(UTILITY_OBJ)
-
-$(LIBRARY): $(OBJECTS)
-	$(LIBB) $@ $^
 
 # utility targets
-.PHONY: clean veryclean
+.PHONY: clean veryclean test1
 
 clean:
 	rm -f *.o
 
 veryclean: clean
 	rm -f *~ *.a *.mod *.MOD
+
+test1: 
+	rm -f *.o *.mod
+	make
+	./test_prog1

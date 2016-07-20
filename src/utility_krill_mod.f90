@@ -6,7 +6,7 @@ use class_krill
 use listKrill_mod
 
 contains
-	subroutine growinglist(listOfkrill)
+	subroutine evolveList(listOfkrill)
 		class(listKrill) :: listOfkrill
 		class(*), pointer :: curr
 		
@@ -16,11 +16,12 @@ contains
 			select type(curr => listOfkrill%currentValue())
 			class is (Krill)
 				call curr%grow()
+				call curr%molt()
 			end select
 
 			call listOfkrill%next()		
 		end do
 		
 		call listOfkrill%printList()
-	end subroutine growingList
+	end subroutine evolveList
 end module utility_krill_mod

@@ -3,6 +3,7 @@ PROGRAM test_prog1
 use class_krill
 use listKrill_mod
 use utility_krill_mod
+use netcdf
 
 type(listKrill) :: list
 type(Krill) :: bernard, roger, olivia
@@ -17,9 +18,9 @@ type(Krill) :: bernard, roger, olivia
 
 	call list%printList()
 
-	call growingList(list)
+	call evolveList(list)
 
-	call list%matrixKrill()
+	call list%netcdfKrill("tes1.nc")
 END PROGRAM test_prog1
 
 
