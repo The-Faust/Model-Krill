@@ -22,6 +22,6 @@ contains
 			call listOfkrill%next()		
 		end do
 		
-		call listOfkrill%printList()
+!		call listOfkrill%printList()
 	end subroutine evolveList
 end module utility_krill_mod
