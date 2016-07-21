@@ -19,6 +19,8 @@ type(Krill) :: bernard, roger, olivia
 	call list%printList()
 
 	call evolveList(list)
+	
+	print *, list%matrixKrill()
 
 	call list%netcdfKrill("tes1.nc")
 END PROGRAM test_prog1

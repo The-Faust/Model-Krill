@@ -23,10 +23,6 @@ LIST_KRILL_OBJ = abstList_mod.o class_krill.o
 
 vpath %.f90 ../src
 
-
-
-
-
 # establishing dependencies and linking files
 # growth_trunk.o: krill_mod.o
 test_prog1: test_prog1.o $(OBJECTS)
