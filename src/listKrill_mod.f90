@@ -168,6 +168,8 @@ contains
 		! define the dimension
 		ierr = nf90_def_dim(file_ID, "numberKrill", nf90_unlimited, numberKrillID)
 		ierr = nf90_def_dim(file_ID, "attributesKrill", nf90_unlimited, attributesKrillID)
+		
+		
 
 		matrixDim = (/ numberKrillID, attributesKrillID /) 
 
