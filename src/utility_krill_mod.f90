@@ -4,6 +4,7 @@ module utility_krill_mod
 
 use class_krill
 use listKrill_mod
+use ran_mod
 
 contains
 	subroutine evolveList(listOfkrill)
@@ -24,4 +25,18 @@ contains
 		
 !		call listOfkrill%printList()
 	end subroutine evolveList
+
+	subroutine generateKrill(n, T, phyto, zoo)
+		class(listKrill) :: list
+		class(Krill) :: akrill
+
+		integer, intent(in) :: n
+		real, intent(in) :: T
+		real, intent(in) :: phyto
+		real, intent(in) :: zoo
+
+		do i = 1, n
+			call akrill%init_krill(spread(20.0,45.0), ran1(), ran1())
+			list%addKrill(akrill)
+		end do
 end module utility_krill_mod

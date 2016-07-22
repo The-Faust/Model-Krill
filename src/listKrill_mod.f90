@@ -126,7 +126,7 @@ contains
 		integer :: ierr
 		integer(kind = 4) :: file_ID, numberKrillID, attributesKrillID, specieID, sexID, sizeID, massID, &
 				&	dev_freqID, molt_sizeID, awID, bwID, eiID, a_moltID, b_moltID, k0ID, h0ID, &
-				&	AID, r0ID, p_zooID, p_phytoID, w_moltID, matrixID
+				&	AID, r0ID, p_zooID, p_phytoID, w_moltID, matrixID, timeID
 		integer, dimension(2) :: matrixDim
 
 		! buffer arrays to allocate values to netcdf variables
@@ -211,7 +211,8 @@ contains
 
 		! define the dimension
 		ierr = nf90_def_dim(file_ID, "numberKrill", n, numberKrillID)
-		if (ierr/=nf90_noerr) print*,'134',nf90_strerror(ierr)	
+		if (ierr/=nf90_noerr) print*,'134',nf90_strerror(ierr)
+		ierr = nf90_def_dim(file_ID, "time", nf90_unlimited, timeID)	
 
 		! creation of the variables for the files
 		ierr = nf90_def_var(file_ID, "specie", nf90_int, numberKrillID, specieID)

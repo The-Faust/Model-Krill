@@ -88,6 +88,22 @@ module class_krill
 		procedure, public :: get_all
 
 		! setters
+		procedure, public :: set_dev_freq
+		procedure, public :: set_molt_size
+		procedure, public :: set_aw
+		procedure, public :: set_bw
+		procedure, public :: set_ei
+		procedure, public :: set_a_molt
+		procedure, public :: set_b_molt
+		procedure, public :: set_k0
+		procedure, public :: set_h0
+		procedure, public :: set_A
+		procedure, public :: set_r0
+		procedure, public :: set_p_zoo
+		procedure, public :: set_p_phyto
+		procedure, public :: set_w_molt
+		procedure, public :: set_all
+
 		procedure, public :: set_T
 		procedure, public :: set_zoo
 		procedure, public :: set_phyto
@@ -379,7 +395,181 @@ contains
 	! setters
 	!
 	!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-	
+	subroutine set_dev_freq(this, new_dev_freq)
+		class(Krill) :: this
+		real, intent(in) :: new_dev_freq
+		if(new_dev_freq < .and. new_dev_freq >) then 
+			this%dev_freq = new_dev_freq
+		else
+			stop "DEV_FREQ_ERROR"
+		endif
+	end subroutine set_dev_freq
+
+	subroutine set_molt_size(this, new_molt_size)
+		class(Krill) :: this
+		real, intent(in) :: new_molt_size
+		if(new_molt_size < .and. new_molt_size >) then 
+			this%molt_size = new_molt_size
+		else
+			stop "MOLT_SIZE_ERROR"
+		endif
+	end subroutine set_molt_size
+
+	subroutine set_(this, new_aw)
+		class(Krill) :: this
+		real, intent(in) :: new_aw
+		if(new_aw < .and. new_aw >) then 
+			this%aw = new_aw
+		else
+			stop "AW_ERROR"
+		endif
+	end subroutine set_aw
+
+	subroutine set_bw(this, new_bw)
+		class(Krill) :: this
+		real, intent(in) :: new_bw
+		if(new_bw < .and. new_bw >) then 
+			this%bw = new_bw
+		else
+			stop "BW_ERROR"
+		endif
+	end subroutine set_bw
+
+	subroutine set_ei(this, new_ei)
+		class(Krill) :: this
+		real, intent(in) :: new_ei
+		if(new_ei < .and. new_ei >) then 
+			this%ei = new_ei
+		else
+			stop "EI_ERROR"
+		endif
+	end subroutine set_ei
+
+	subroutine set_a_molt(this, new_a_molt)
+		class(Krill) :: this
+		real, intent(in) :: new_a_molt
+		if(new_a_molt < .and. new_a_molt >) then 
+			this%a_molt = new_a_molt
+		else
+			stop "A_MOLT_ERROR"
+		endif
+	end subroutine set_a_molt
+
+	subroutine set_b_molt(this, new_b_molt)
+		class(Krill) :: this
+		real, intent(in) :: new_b_molt
+		if(new_b_molt < .and. new_b_molt >) then 
+			this%b_molt = new_b_molt
+		else
+			stop "B_MOLT_ERROR"
+		endif
+	end subroutine set_b_molt
+
+	subroutine set_k0(this, new_k0)
+		class(Krill) :: this
+		real, intent(in) :: new_k0
+		if(new_k0 < .and. new_k0 >) then 
+			this%k0 = new_k0
+		else
+			stop "K0_ERROR"
+		endif
+	end subroutine set_k0
+
+	subroutine set_h0(this, new_h0)
+		class(Krill) :: this
+		real, intent(in) :: new_h0
+		if(new_h0 < .and. new_h0 >) then 
+			this%h0 = new_h0
+		else
+			stop "H0_ERROR"
+		endif
+	end subroutine set_h0
+
+	subroutine set_A(this, new_A)
+		class(Krill) :: this
+		real, intent(in) :: new_A
+		if(new_A < .and. new_A >) then 
+			this%A = new_A
+		else
+			stop "A_ERROR"
+		endif
+	end subroutine set_A
+
+	subroutine set_r0(this, new_r0)
+		class(Krill) :: this
+		real, intent(in) :: new_r0
+		if(new_r0 < .and new_r0 >) then 
+			this%r0 = new_r0
+		else
+			stop "R0_ERROR"
+		endif
+	end subroutine set_r0
+
+	subroutine set_p_zoo(this, new_p_zoo)
+		class(Krill) :: this
+		real, intent(in) :: new_p_zoo
+		if(new_p_zoo < .and new_p_zoo >) then 
+			this%p_zoo = new_p_zoo
+		else
+			stop "P_ZOO_ERROR"
+		endif
+	end subroutine set_p_zoo
+
+	subroutine set_p_phyto(this, new_p_phyto)
+		class(Krill) :: this
+		real, intent(in) :: new_p_phyto
+		if(new_p_phyto < .and new_p_phyto >) then 
+			this%p_phyto = new_p_phyto
+		else
+			stop "P_PHYTO_ERROR"
+		endif
+	end subroutine set_p_phyto
+
+	subroutine set_w_molt(this, new_w_molt)
+		class(Krill) :: this
+		real, intent(in) :: new_w_molt
+		if(new_w_molt < .and new_w_molt >) then 
+			this%w_molt = new_w_molt
+		else
+			stop "W_MOLT_ERROR"
+		endif
+	end subroutine set_w_molt
+
+	subroutine set_all(this, new_dev_freq, new_molt_size, new_aw, new_bw, new_ei, & 
+		&		new_a_molt, new_b_molt, new_k0, new_h0, new_A, new_r0, new_p_phyto, &
+		&		new_p_zoo, new_w_molt)
+		class(Krill) :: this
+		real, intent(in) :: new_dev_freq
+		real, intent(in) :: new_molt_size
+		real, intent(in) :: new_aw
+		real, intent(in) :: new_bw
+		real, intent(in) :: new_ei
+		real, intent(in) :: new_a_molt
+		real, intent(in) :: new_b_molt
+		real, intent(in) :: new_k0
+		real, intent(in) :: new_h0
+		real, intent(in) :: new_A
+		real, intent(in) :: new_r0
+		real, intent(in) :: new_p_zoo
+		real, intent(in) :: new_p_phyto
+		real, intent(in) :: new_w_molt
+
+		call this%set_dev_freq(new_dev_freq)
+		call this%set_molt_size(new_molt_size)
+		call this%set_aw(new_aw)
+		call this%set_bw(new_bw)
+		call this%set_ei(new_ei)
+		call this%set_a_molt(new_a_molt)
+		call this%set_b_molt(new_b_molt)
+		call this%set_k0(new_k0)
+		call this%set_h0(new_h0)
+		call this%set_A(new_A)
+		call this%set_r0(new_r0)
+		call this%set_p_zoo(new_p_zoo)
+		call this%set_p_phyto(new_p_phyto)
+		call this%set_w_molt(new_w_molt)
+	end subroutine set_all
+
 	subroutine set_T(this, T)
 		class(Krill) :: this
 		real :: T
