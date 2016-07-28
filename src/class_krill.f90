@@ -6,11 +6,11 @@ module class_krill
     private
 
     ! constants used within classes
-    integer, parameter, public :: M_norvegica = 0
-    integer, parameter, public :: T_raschii = 1
+!    integer, parameter, public :: M_norvegica = 0
+!    integer, parameter, public :: T_raschii = 1
 
-    integer, parameter, public :: SEX_M = 0
-    integer, parameter, public :: SEX_F = 1
+!    integer, parameter, public :: SEX_M = 0
+!    integer, parameter, public :: SEX_F = 1
     real, parameter :: EPS = 10e-6
     real, parameter :: SIZE_MAX = 50.0
 
@@ -140,32 +140,32 @@ contains
 
             write(*, *) "== Krill =="
             select case (this%species)
-                case (M_norvegica)
+                case (0)
                     write(*, '(T4, A, T17, A)'), "species: ", "M. norvegica"
-                case (T_raschii)
+                case (1)
                     write(*, '(T4, A, T17, A)'), "species:", "T. raschii"
             end select
             select case (this%sex)
-                case (SEX_F)
+                case (0)
                     write(*, '(T4, A, T17, A)'), "sex: ", "F"
-                case (SEX_M)
+                case (1)
                     write(*, '(T4, A, T17, A)'), "sex: ", "M"
             end select
             write(*, '(T4, A, T16, ES10.3)'), "size: ", this%sizer
             write(*, '(T4, A, T16, ES10.3)'), "mass: ", this%mass
             write(*, '(T4, A, T16, ES10.3)'), "dev_freq: ", this%dev_freq
             write(*, '(T4, A, T16, ES10.3)'), "molt_size: ", this%molt_size
-            write(*, '(T4, A, T16, ES10.3)'), "A: ", this%A
-            write(*, '(T4, A, T16, ES10.3)'), "a_molt: ", this%a_molt
             write(*, '(T4, A, T16, ES10.3)'), "aw: ", this%aw
-            write(*, '(T4, A, T16, ES10.3)'), "b_molt: ", this%b_molt
             write(*, '(T4, A, T16, ES10.3)'), "bw: ", this%bw
             write(*, '(T4, A, T16, ES10.3)'), "ei: ", this%ei
-            write(*, '(T4, A, T16, ES10.3)'), "h0: ", this%h0
+            write(*, '(T4, A, T16, ES10.3)'), "a_molt: ", this%a_molt
+            write(*, '(T4, A, T16, ES10.3)'), "b_molt: ", this%b_molt
             write(*, '(T4, A, T16, ES10.3)'), "k0: ", this%k0
-            write(*, '(T4, A, T16, ES10.3)'), "p_phyto: ", this%p_phyto
-            write(*, '(T4, A, T16, ES10.3)'), "p_zoo: ", this%p_zoo
+            write(*, '(T4, A, T16, ES10.3)'), "h0: ", this%h0
+            write(*, '(T4, A, T16, ES10.3)'), "A: ", this%A
             write(*, '(T4, A, T16, ES10.3)'), "r0: ", this%r0
+            write(*, '(T4, A, T16, ES10.3)'), "p_zoo: ", this%p_zoo
+            write(*, '(T4, A, T16, ES10.3)'), "p_phyto: ", this%p_phyto
             write(*, '(T4, A, T16, ES10.3/)'), "w_molt: ", this%w_molt
     end subroutine debug
 
@@ -413,25 +413,25 @@ contains
         integer :: sex
         integer :: species
 
-		real, optional :: aw       
-		real, optional :: bw       
-		real, optional :: ei       
-		real, optional :: a_molt   
-		real, optional :: b_molt   
-		real, optional :: k0       
-		real, optional :: h0       
-		real, optional :: A        
-		real, optional :: r0       
-		real, optional :: p_zoo    
-		real, optional :: p_phyto  
-		real, optional :: w_molt 
+        real, optional :: aw       
+        real, optional :: bw       
+        real, optional :: ei       
+        real, optional :: a_molt   
+        real, optional :: b_molt   
+        real, optional :: k0       
+        real, optional :: h0       
+        real, optional :: A        
+        real, optional :: r0       
+        real, optional :: p_zoo    
+        real, optional :: p_phyto  
+        real, optional :: w_molt 
 
-		real, optional :: T
-		real, optional :: phyto
-		real, optional :: zoo  
+        real, optional :: T
+        real, optional :: phyto
+        real, optional :: zoo  
 
         ! preconditions
-        if (sex /= SEX_M .and. sex /= SEX_F) then
+        if (sex /= 0 .and. sex /= 1) then
                 stop 'SEX_ERROR'
         endif
 

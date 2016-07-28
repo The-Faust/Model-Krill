@@ -11,23 +11,25 @@ FCFLAGS = -g -fbounds-check
 FCFLAGS = -O2
 
 # flags forall (e.g. look for system .mod files, required in gfortran)
-FCFLAGS += -I/usr/include
+FCFLAGS += -I/usr/local/netcdf/include
 
 # libraries needed for linking
-LDFLAGS += -L/usr/lib
+LDFLAGS += -L/usr/local/netcdf/lib64
 LDFLAGS += -lnetcdff -lnetcdf
 # variables
 OBJECTS = class_krill.o listKrill_mod.o abstList_mod.o link_mod.o ran_mod.o utility_krill_mod.o
-UTILITY_OBJ = class_krill.o listKrill_mod.o
+UTILITY_OBJ = class_krill.o listKrill_mod.o ran_mod.o
 LIST_KRILL_OBJ = abstList_mod.o class_krill.o
 
 vpath %.f90 ../src
 
 # establishing dependencies and linking files
 # growth_trunk.o: krill_mod.o
-test_prog1: test_prog1.o $(OBJECTS)
+#test_prog1: test_prog1.o $(OBJECTS)
+test_prog2: test_prog2.o $(OBJECTS)
 
-test_prog1.o: $(OBJECTS)
+#test_prog1.o: $(OBJECTS)
+test_prog2.o: $(OBJECTS)
 
 utility_krill_mod.o: $(UTILITY_OBJ)
 
@@ -58,4 +60,5 @@ veryclean: clean
 test1: 
 	rm -f *.o *.mod
 	make
-	./test_prog1
+#	./test_prog1
+	./test_prog2
