@@ -85,8 +85,6 @@ module class_krill
 		procedure, public :: get_phyto
 		procedure, public :: get_zoo
 
-		procedure, public :: get_all
-
 		! setters
 		procedure, public :: set_dev_freq
 		procedure, public :: set_molt_size
@@ -102,11 +100,12 @@ module class_krill
 		procedure, public :: set_p_zoo
 		procedure, public :: set_p_phyto
 		procedure, public :: set_w_molt
-		procedure, public :: set_all
+		procedure, public :: set_all	   ! allow use of all setters at 1 time
 
 		procedure, public :: set_T
 		procedure, public :: set_zoo
 		procedure, public :: set_phyto
+		procedure, public :: set_env       ! allow use of set_T set_zoo and set_phyto in 1 subroutine
 
 		! Constructor
 		procedure, public :: init_krill    ! initialisator for a krill object
@@ -198,7 +197,7 @@ contains
             develop = 3.0
 		else
 			develop = this%a_molt+this%b_molt*this%T		
-        end if
+        endif
 
     end function develop
 
@@ -252,7 +251,7 @@ contains
         ! according to the allometric relationship
         if (this%dev_freq > 0.4 .and. this%molt_size < EPS) then
             this%molt_size = (this%mass / this%aw)** (1 / this%bw)
-        end if
+        endif
 
         ! At the end of the development phase, the individual molts
         if (this%dev_freq > 1.0) then
@@ -260,7 +259,7 @@ contains
             this%sizer = this%molt_size
             this%dev_freq = this%dev_freq - 1.0
             this%molt_size = 0
-        end if
+        endif
     end subroutine molt
 
 
@@ -270,6 +269,18 @@ contains
     !
     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
+	! getters for immutable attributes
+	integer function get_sex(this)
+		class(Krill) :: this
+		get_sex = this%sex
+	end function get_sex
+
+	integer function get_specie(this)
+		class(Krill) :: this
+		get_specie = this%species
+	end function get_specie
+
+	! getters for mutable attributes
     real function get_size(this)
         class(Krill) :: this
         get_size = this%sizer
@@ -289,18 +300,6 @@ contains
 		class(Krill) :: this
 		get_molt_size = this%molt_size
 	end function get_molt_size
-
-	integer function get_sex(this)
-		class(Krill) :: this
-		get_sex = this%sex
-	end function get_sex
-
-	integer function get_specie(this)
-		class(Krill) :: this
-		get_specie = this%species
-	end function get_specie
-
-
 
 	real function get_aw(this)
 		class(Krill) :: this
@@ -362,8 +361,7 @@ contains
 		get_w_molt = this%w_molt
 	end function get_w_molt
 
-
-
+	! getters for krill environment
 	real function get_T(this)
 		class(Krill) :: this
 		get_T = this%T
@@ -378,16 +376,6 @@ contains
 		class(Krill) :: this
 		get_zoo = this%zoo
 	end function get_zoo
-
-
-	function get_all(this)
-		class(krill) :: this
-		
-		real, dimension(18) :: get_all
-
-		get_all = (/real(this%species), real(this%sex), this%sizer, this%mass, this%dev_freq, this%molt_size, this%aw, this%bw, this%ei, & 
-				&			this%a_molt, this%b_molt, this%k0, this%h0, this%A, this%r0, this%p_zoo, this%p_phyto, this%w_molt/)
-	end function get_all
 		
 
 	!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -395,143 +383,325 @@ contains
 	! setters
 	!
 	!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+	! setters for Krill attributes
 	subroutine set_dev_freq(this, new_dev_freq)
 		class(Krill) :: this
 		real, intent(in) :: new_dev_freq
-		if(new_dev_freq < .and. new_dev_freq >) then 
-			this%dev_freq = new_dev_freq
+
+		if(this%species == M_norvegica) then
+			if(new_dev_freq < 0.0 .and. new_dev_freq >0.0) then 
+				this%dev_freq = new_dev_freq		
+			else
+				stop "DEV_FREQ_ERROR"
+			endif
+
+		else if(this%species == T_rashi) then
+			if(new_dev_freq < 0.0 .and. new_dev_freq > 0.0) then 
+				this%dev_freq = new_dev_freq		
+			else
+				stop "DEV_FREQ_ERROR"
+			endif
+
 		else
-			stop "DEV_FREQ_ERROR"
+			stop "SPECIE_ERROR"
 		endif
 	end subroutine set_dev_freq
 
 	subroutine set_molt_size(this, new_molt_size)
 		class(Krill) :: this
 		real, intent(in) :: new_molt_size
-		if(new_molt_size < .and. new_molt_size >) then 
-			this%molt_size = new_molt_size
+
+		if(this%species == M_norvegica) then
+			if(new_molt_size < 0.0 .and. new_molt_size > 0.0 ) then 
+				this%molt_size = new_molt_size
+			else
+				stop "MOLT_SIZE_ERROR"
+			endif
+
+		else if(this%species == T_raschi) then
+			if(new_molt_size < 0.0 .and. new_molt_size > 0.0) then 
+				this%molt_size = new_molt_size
+			else
+				stop "MOLT_SIZE_ERROR"
+			endif
+
 		else
-			stop "MOLT_SIZE_ERROR"
+			stop "SPECIE_ERROR"
 		endif
 	end subroutine set_molt_size
 
 	subroutine set_(this, new_aw)
 		class(Krill) :: this
 		real, intent(in) :: new_aw
-		if(new_aw < .and. new_aw >) then 
-			this%aw = new_aw
+
+		if(this%species == M_norvegica) then
+			if(new_aw < 0.0 .and. new_aw > 0.0) then 
+				this%aw = new_aw
+			else
+				stop "AW_ERROR"
+			endif
+		
+		else if(this%species == T_raschi) then
+			if(new_aw < 0.0 .and. new_aw > 0.0) then 
+				this%aw = new_aw
+			else
+				stop "AW_ERROR"
+			endif
+
 		else
-			stop "AW_ERROR"
+			stop "SPECIE_ERROR"
 		endif
 	end subroutine set_aw
 
 	subroutine set_bw(this, new_bw)
 		class(Krill) :: this
 		real, intent(in) :: new_bw
-		if(new_bw < .and. new_bw >) then 
-			this%bw = new_bw
+		if(this%species == M_norvegica) then
+			if(new_bw < 0.0 .and. new_bw > 0.0) then 
+				this%bw = new_bw
+			else
+				stop "BW_ERROR"
+			endif
+		
+		else if(this%species == T_raschi) then
+			if(new_bw < 0.0 .and. new_bw > 0.0) then 
+				this%bw = new_bw
+			else
+				stop "BW_ERROR"
+			endif
+
 		else
-			stop "BW_ERROR"
+			stop "SPECIE_ERROR"
 		endif
 	end subroutine set_bw
 
 	subroutine set_ei(this, new_ei)
 		class(Krill) :: this
 		real, intent(in) :: new_ei
-		if(new_ei < .and. new_ei >) then 
-			this%ei = new_ei
+
+		if(this%species == M_norvegica) then
+			if(new_ei < 0.0 .and. new_ei > 0.0) then 
+				this%ei = new_ei
+			else
+				stop "EI_ERROR"
+			endif
+
+		else if(this%species == T_raschi) then
+			if(new_ei < 0.0 .and. new_ei > 0.0) then 
+				this%ei = new_ei
+			else
+				stop "EI_ERROR"
+			endif
+
 		else
-			stop "EI_ERROR"
+			stop "SPECIE_ERROR"
 		endif
 	end subroutine set_ei
 
 	subroutine set_a_molt(this, new_a_molt)
 		class(Krill) :: this
 		real, intent(in) :: new_a_molt
-		if(new_a_molt < .and. new_a_molt >) then 
-			this%a_molt = new_a_molt
+
+		if(this%species == M_norvegica) then
+			if(new_a_molt 0.0 < .and. new_a_molt > 0.0) then 
+				this%a_molt = new_a_molt
+			else
+				stop "A_MOLT_ERROR"
+			endif
+
+		else if(this%species == T_raschi) then
+			if(new_a_molt 0.0 < .and. new_a_molt > 0.0) then 
+				this%a_molt = new_a_molt
+			else
+				stop "A_MOLT_ERROR"
+			endif
+
 		else
-			stop "A_MOLT_ERROR"
+			stop "SPECIE_ERROR"
 		endif
 	end subroutine set_a_molt
 
 	subroutine set_b_molt(this, new_b_molt)
 		class(Krill) :: this
 		real, intent(in) :: new_b_molt
-		if(new_b_molt < .and. new_b_molt >) then 
-			this%b_molt = new_b_molt
+
+		if(this%species == M_norvegica) then
+			if(new_b_molt < 0.0 .and. new_b_molt > 0.0) then 
+				this%b_molt = new_b_molt
+			else
+				stop "B_MOLT_ERROR"
+			endif
+
+		else if(this%species == T_raschi) then
+			if(new_b_molt < 0.0 .and. new_b_molt > 0.0) then 
+				this%b_molt = new_b_molt
+			else
+				stop "B_MOLT_ERROR"
+			endif
+
 		else
-			stop "B_MOLT_ERROR"
+			stop "SPECIE_ERROR"
 		endif
 	end subroutine set_b_molt
 
 	subroutine set_k0(this, new_k0)
 		class(Krill) :: this
 		real, intent(in) :: new_k0
-		if(new_k0 < .and. new_k0 >) then 
-			this%k0 = new_k0
+
+		if(this%species == M_norvegica) then
+			if(new_k0 < 0.0 .and. new_k0 > 0.0) then 
+				this%k0 = new_k0
+			else
+				stop "K0_ERROR"
+			endif
+
+		else if(this%species == T_raschi) then
+			if(new_k0 < 0.0 .and. new_k0 > 0.0) then 
+				this%k0 = new_k0
+			else
+				stop "K0_ERROR"
+			endif
+
 		else
-			stop "K0_ERROR"
+			stop "SPECIE_ERROR"
 		endif
 	end subroutine set_k0
 
 	subroutine set_h0(this, new_h0)
 		class(Krill) :: this
 		real, intent(in) :: new_h0
-		if(new_h0 < .and. new_h0 >) then 
-			this%h0 = new_h0
+		if(this%species == M_norvegica) then
+			if(new_h0 < 0.0 .and. new_h0 > 0.0) then 
+				this%h0 = new_h0
+			else
+				stop "H0_ERROR"
+			endif
+
+		else if(this%species == T_raschi) then
+			if(new_h0 < 0.0 .and. new_h0 > 0.0) then 
+				this%h0 = new_h0
+			else
+				stop "H0_ERROR"
+			endif
+
 		else
-			stop "H0_ERROR"
+			stop "SPECIE_ERROR"
 		endif
 	end subroutine set_h0
 
 	subroutine set_A(this, new_A)
 		class(Krill) :: this
 		real, intent(in) :: new_A
-		if(new_A < .and. new_A >) then 
-			this%A = new_A
+
+		if(this%species == M_norvegica) then
+			if(new_A < 0.0 .and. new_A > 0.0) then 
+				this%A = new_A
+			else
+				stop "A_ERROR"
+			endif
+
+		else if(this%species == T_raschi) then
+			if(new_A < 0.0 .and. new_A > 0.0) then 
+				this%A = new_A
+			else
+				stop "A_ERROR"
+			endif
+
 		else
-			stop "A_ERROR"
+			stop "SPECIE_ERROR"
 		endif
 	end subroutine set_A
 
 	subroutine set_r0(this, new_r0)
 		class(Krill) :: this
 		real, intent(in) :: new_r0
-		if(new_r0 < .and new_r0 >) then 
-			this%r0 = new_r0
+
+		if(this%species == M_norvegica) then
+			if(new_r0 < 0.0 .and new_r0 > 0.0) then 
+				this%r0 = new_r0
+			else
+				stop "R0_ERROR"
+			endif
+
+		else if(this%species == T_raschi) then
+			if(new_r0 < 0.0 .and new_r0 > 0.0) then 
+				this%r0 = new_r0
+			else
+				stop "R0_ERROR"
+			endif
+
 		else
-			stop "R0_ERROR"
+			stop "SPECIE_ERROR"
 		endif
 	end subroutine set_r0
 
 	subroutine set_p_zoo(this, new_p_zoo)
 		class(Krill) :: this
 		real, intent(in) :: new_p_zoo
-		if(new_p_zoo < .and new_p_zoo >) then 
-			this%p_zoo = new_p_zoo
+
+		if(this%species == M_norvegica) then
+			if(new_p_zoo < 0.0 .and new_p_zoo > 0.0) then 
+				this%p_zoo = new_p_zoo
+			else
+				stop "P_ZOO_ERROR"
+			endif
+
+		else if(this%species == T_raschi) then
+			if(new_p_zoo < 0.0 .and new_p_zoo > 0.0) then 
+				this%p_zoo = new_p_zoo
+			else
+				stop "P_ZOO_ERROR"
+			endif
+
 		else
-			stop "P_ZOO_ERROR"
+			stop "SPECIE_ERROR"
 		endif
 	end subroutine set_p_zoo
 
 	subroutine set_p_phyto(this, new_p_phyto)
 		class(Krill) :: this
 		real, intent(in) :: new_p_phyto
-		if(new_p_phyto < .and new_p_phyto >) then 
-			this%p_phyto = new_p_phyto
+
+		if(this%species == M_norvegica) then
+			if(new_p_phyto < 0.0 .and new_p_phyto > 0.0) then 
+				this%p_phyto = new_p_phyto
+			else
+				stop "P_PHYTO_ERROR"
+			endif
+
+		else if(this%species == T_raschi) then
+			if(new_p_phyto < 0.0 .and new_p_phyto > 0.0) then 
+				this%p_phyto = new_p_phyto
+			else
+				stop "P_PHYTO_ERROR"
+			endif
+
 		else
-			stop "P_PHYTO_ERROR"
+			stop "SPECIE_ERROR"
 		endif
 	end subroutine set_p_phyto
 
 	subroutine set_w_molt(this, new_w_molt)
 		class(Krill) :: this
 		real, intent(in) :: new_w_molt
-		if(new_w_molt < .and new_w_molt >) then 
-			this%w_molt = new_w_molt
+
+		if(this%species == M_norvegica) then
+			if(new_w_molt 0.0 < .and new_w_molt > 0.0) then 
+				this%w_molt = new_w_molt
+			else
+				stop "W_MOLT_ERROR"
+			endif
+
+		else if(this%species == T_raschi) then
+			if(new_w_molt 0.0 < .and new_w_molt > 0.0) then 
+				this%w_molt = new_w_molt
+			else
+				stop "W_MOLT_ERROR"
+			endif
+
 		else
-			stop "W_MOLT_ERROR"
+			stop "SPECIE_ERROR"
 		endif
 	end subroutine set_w_molt
 
@@ -570,24 +740,50 @@ contains
 		call this%set_w_molt(new_w_molt)
 	end subroutine set_all
 
+	! setters for Krill environment
 	subroutine set_T(this, T)
 		class(Krill) :: this
-		real :: T
-		this%T = T
+		real, intent(in) :: T
+
+		if(T < 20.0 .and. T > 0.0) then
+			this%T = T
+		else
+			stop "T_ERROR"
+		endif
 	end subroutine set_T
 
 	subroutine set_phyto(this, phyto)
 		class(Krill) :: this
-		real :: phyto
-		this%phyto = phyto
+		real, intent(in) :: phyto
+
+		if(phyto < 100.0 .and. phyto > 0.0) then
+			this%phyto = phyto
+		else
+			stop "PHYTO_ERROR"
+		endif
 	end subroutine set_phyto
 
 	subroutine set_zoo(this, zoo)
 		class(Krill) :: this
-		real :: zoo
-		this%zoo = zoo
+		real, intent(in) :: zoo
+
+		if(zoo < 100.0 .and. zoo > 0.0) then
+			this%zoo = zoo
+		else
+			stop "ZOO_ERROR"
+		endif		
 	end subroutine set_zoo
 
+	subroutine set_env(this, T, zoo, phyto)
+		class(Krill) :: this
+		real, intent(in) :: T
+		real, intent(in) :: zoo
+		real, intent(in) :: phyto
+
+		call set_T(T)
+		call set_zoo(zoo)
+		call set_phyto(phyto)
+	end subroutine set_env
 
     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     !
@@ -646,67 +842,67 @@ contains
                         this%aw = aw
                 else 
                         this%aw = 7.5e-5
-                end if 
+                endif 
 
                 if(present(bw)) then
                          this%bw = bw
                 else 
                         this%bw = 3.79
-                end if 
+                endif 
 
                 if(present(ei)) then
                         this%ei = ei
                 else 
                         this%ei = 0.2
-                end if 
+                endif 
 
                 if(present(k0)) then
                         this%k0 = k0
                 else 
                         this%k0 = 10.0
-                end if 
+                endif 
 
                 if(present(h0)) then
                         this%h0 = h0
                 else 
                         this%h0 = 120.0
-                end if 
+                endif 
 
                 if(present(A)) then
                         this%A = A
                 else 
                         this%A = 0.70
-                end if 
+                endif 
 
                 if(present(r0)) then
                         this%r0 = r0
                 else 
                         this%r0 = 6.33e-4
-                end if 
+                endif 
 
                 if(present(w_molt)) then
                         this%w_molt = w_molt
                 else 
                         this%w_molt = 0.062
-                end if 
+                endif 
 
                 if(present(a_molt)) then
                         this%a_molt = a_molt
                 else 
                         this%a_molt = 20.62
-                end if 
+                endif 
 
                 if(present(b_molt)) then
                         this%b_molt = b_molt
                 else 
                         this%b_molt = -1.16
-                end if 
+                endif 
 
                 if(present(p_phyto)) then
                         this%p_phyto = p_phyto
                 else 
                         this%p_phyto = 0.2
-                end if 
+                endif 
 
                 if(present(p_zoo)) then
                         this%p_zoo = p_zoo
@@ -722,67 +918,67 @@ contains
                         this%aw = aw
                 else 
                         this%aw = 0.000717
-                end if 
+                endif 
 
                 if(present(bw)) then
                         this%bw = bw
                 else 
                         this%bw = 3.17
-                end if 
+                endif 
 
                 if(present(ei)) then
                         this%ei = ei
                 else 
                         this%ei = 0.2
-                end if 
+                endif 
 
                 if(present(k0)) then
                         this%k0 = k0
                 else 
                         this%k0 = 1.0
-                end if 
+                endif 
 
                 if(present(h0)) then
                         this%h0 = h0
                 else 
                         this%h0 = 1.0
-                end if 
+                endif 
 
                 if(present(A)) then
                         this%A = A
                 else 
                         this%A = 0.6
-                end if 
+                endif 
 
                 if(present(r0)) then
                         this%r0 = r0
                 else 
                         this%r0 = 10e-3
-                end if 
+                endif 
 
                 if(present(w_molt)) then
                         this%w_molt = w_molt
                 else 
                         this%w_molt = 0.05
-                end if 
+                endif 
 
                 if(present(a_molt)) then
                         this%a_molt = a_molt
                 else 
                         this%a_molt = 20.62
-                end if 
+                endif 
 
                 if(present(b_molt)) then
                         this%b_molt = b_molt
                 else 
                         this%b_molt = -1.16
-                end if 
+                endif 
 
                 if(present(p_phyto)) then
                         this%p_phyto = p_phyto
                 else 
                         this%p_phyto = 0.8
-                end if 
+                endif 
 
                 if(present(p_zoo)) then
                         this%p_zoo = p_zoo

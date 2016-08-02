@@ -18,10 +18,10 @@ LDFLAGS += -L/usr/lib
 LDFLAGS += -lnetcdff -lnetcdf
 # variables
 OBJECTS = class_krill.o listKrill_mod.o abstList_mod.o link_mod.o ran_mod.o utility_krill_mod.o
-UTILITY_OBJ = class_krill.o listKrill_mod.o
+UTILITY_OBJ = class_krill.o listKrill_mod.o ran_mod.o
 LIST_KRILL_OBJ = abstList_mod.o class_krill.o
 
-vpath %.f90 ../src
+VPATH = src: general-tools-src: krill-tools-src: tests-src:
 
 # establishing dependencies and linking files
 # growth_trunk.o: krill_mod.o

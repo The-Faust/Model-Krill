@@ -7,7 +7,7 @@ use listKrill_mod
 use ran_mod
 
 contains
-	subroutine evolveList(listOfkrill)
+	subroutine evolveList(listOfkrill, netcdfDataset)
 		class(listKrill) :: listOfkrill
 		class(*), pointer :: curr
 		
@@ -37,6 +37,10 @@ contains
 
 		do i = 1, n
 			call akrill%init_krill(spread(20.0,45.0), ran1(), ran1())
+			call akrill%set_t(T)
+			call akrill%set_phyto(phyto)
+			call akrill%set_zoo(zoo)
+
 			list%addKrill(akrill)
 		end do
 end module utility_krill_mod
