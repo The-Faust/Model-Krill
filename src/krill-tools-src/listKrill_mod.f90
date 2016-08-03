@@ -3,7 +3,6 @@
 module listKrill_mod
 	use class_krill
 	use abstList_mod
-	use netcdf
 
 	private
 	public :: listKrill
