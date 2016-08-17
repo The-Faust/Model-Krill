@@ -60,5 +60,5 @@ veryclean: clean
 test1: 
 	rm -f *.o *.mod
 	make
-#	./test_prog1
+	./test_prog1
 	./test_prog2

@@ -1,8 +1,9 @@
 ! Provide simulation parameters
-!  species = Species of Krill  (0 = M.norvegica | 1 = T.raschii)
-!  sex     = Sex of individual (0 = Female      | 1 = Male)
-!  nb_ind  = Number of simulated individual
-!  period  = Time in days of simulation
+!  species  = Species of Krill  (0 = M.norvegica | 1 = T.raschii)
+!  sex      = Sex of individual (0 = Female      | 1 = Male)
+!  nb_ind   = Number of simulated individual
+!  period   = Time in days of simulation
+!  jump_time = Time step
 
 ! Parameters of ingestion, respiration, develop and arrhenius functions
 !  aw      =  The regression constant of length(mm)/mass(mgC) relationship    (7.5e-5 = M.norvegica  | 7.17e-4 = T.raschii)
@@ -21,22 +22,21 @@
 
 &physio_nml
 
- nb_ind  = 3,
- period  = 5,
- species = 0,
- sex     = 0, 
- aw      = 7.5e-5,
- bw      = 3.79,
- ei      = 0.2,
- a_molt  = 20.62,
- b_molt  = -1.16,
- k0      = 1,
- h0      = 150,
- A       = 0.6,
- r0      = 10e-3,
- p_zoo   = 0.5,
- p_phyto = 0.5,
- w_molt  = 0.062,
-/
-
+ nb_ind   = 3,
+ period   = 30,
+ jump_time = 1,
+ species  = 0,
+ sex      = 0, 
+ aw       = 7.5e-5,
+ bw       = 3.79,
+ ei       = 0.2,
+ a_molt   = 20.62,
+ b_molt   = -1.16,
+ k0       = 1,
+ h0       = 150,
+ A        = 0.6,
+ r0       = 10e-3,
+ p_zoo    = 0.5,
+ p_phyto  = 0.5,
+ w_molt  = 0.062/
 

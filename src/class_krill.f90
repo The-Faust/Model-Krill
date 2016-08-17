@@ -178,10 +178,10 @@ contains
     real function develop(this)
 		class(Krill) :: this
 
+	develop = this%a_molt+this%b_molt*this%T		
+
         if (develop < 3.0) then
             develop = 3.0
-		else
-			develop = this%a_molt+this%b_molt*this%T		
         end if
 
     end function develop
@@ -404,12 +404,13 @@ contains
     ! new_krill initializes a new Krill object
     !
     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    subroutine init_krill(this, sizer, species, sex, aw, bw, ei, a_molt, b_molt, k0, h0,&
+    subroutine init_krill(this, sizer,mass, species, sex, aw, bw, ei, a_molt, b_molt, k0, h0,&
         &                  A, r0, p_zoo, p_phyto, w_molt, T, phyto, zoo)
         ! creating a krill object
         class(Krill) :: this
 
         real :: sizer
+        real :: mass
         integer :: sex
         integer :: species
 
@@ -444,9 +445,10 @@ contains
         this%species = species
         this%sex = sex
         this%sizer = sizer
-        this%mass = this%aw * (this%sizer ** this%bw)
+        this%mass = mass ! this%aw * (this%sizer ** this%bw)
         this%dev_freq = 0.0
         this%molt_size = 0.0
+
 
 
         ! Parameters specific of M. norvegica for allometric relationship, arrhenius,
